@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blockhunter Software – Software Bausteine für die Zukunft</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- ==================== NAVIGATION ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="#hero" class="logo">
+        <span class="logo-icon">⬡</span> Blockhunter<span class="logo-accent">Software</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#hero">Start</a></li>
+        <li><a href="#about">Über uns</a></li>
+        <li><a href="#products">Produkte</a></li>
+        <li><a href="#services">Leistungen</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#testimonials">Referenzen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+        <li><a href="agb.html">AGB</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="container hero-content">
+      <h1>Software Bausteine<br />für die <span class="gradient-text">Zukunft</span></h1>
+      <p class="hero-subtitle">
+        Wir entwickeln modulare, wiederverwendbare Software-Komponenten, die Ihr
+        Unternehmen auf das nächste Level bringen. Schnell. Sicher. Skalierbar.
+      </p>
+      <div class="hero-cta">
+        <a href="#products" class="btn btn-primary">Produkte entdecken</a>
+        <a href="#contact" class="btn btn-outline">Kontakt aufnehmen</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number" data-target="150">0</span>+
+          <span class="stat-label">Kunden weltweit</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="25">0</span>+
+          <span class="stat-label">Software Bausteine</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="99">0</span>%
+          <span class="stat-label">Kundenzufriedenheit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ÜBER UNS ==================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">Über uns</h2>
+      <p class="section-subtitle">Wer wir sind und was uns antreibt</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            <strong>Blockhunter Software</strong> ist ein innovatives Softwareunternehmen,
+            das sich auf die Entwicklung modularer Software-Bausteine spezialisiert hat.
+            Unsere Philosophie: Statt jedes Mal das Rad neu zu erfinden, liefern wir
+            fertige, getestete und dokumentierte Komponenten, die nahtlos in bestehende
+            Systeme integriert werden können.
+          </p>
+          <p>
+            Gegründet mit der Vision, Softwareentwicklung effizienter und zugänglicher
+            zu machen, arbeiten wir heute mit über 150 Unternehmen weltweit zusammen.
+            Unsere Bausteine decken alles ab – von Authentifizierung über
+            Zahlungsabwicklung bis hin zu KI-gestützter Datenanalyse.
+          </p>
+          <div class="about-values">
+            <div class="value">
+              <div class="value-icon">🔧</div>
+              <h4>Modularität</h4>
+              <p>Plug &amp; Play Komponenten für jede Architektur</p>
+            </div>
+            <div class="value">
+              <div class="value-icon">🛡️</div>
+              <h4>Sicherheit</h4>
+              <p>Enterprise-Grade Security in jedem Baustein</p>
+            </div>
+            <div class="value">
+              <div class="value-icon">⚡</div>
+              <h4>Performance</h4>
+              <p>Optimiert für höchste Geschwindigkeit</p>
+            </div>
+            <div class="value">
+              <div class="value-icon">📚</div>
+              <h4>Dokumentation</h4>
+              <p>Umfassende Docs &amp; Beispiele inklusive</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRODUKTE (aus JSON geladen) ==================== -->
+  <section class="section section-dark" id="products">
+    <div class="container">
+      <h2 class="section-title">Unsere Produkte</h2>
+      <p class="section-subtitle">Modulare Software-Bausteine für jeden Bedarf</p>
+
+      <!-- Filter Buttons -->
+      <div class="product-filters" id="productFilters">
+        <button class="filter-btn active" data-filter="all">Alle</button>
+      </div>
+
+      <!-- Product Grid – wird per JS aus products.json befüllt -->
+      <div class="product-grid" id="productGrid">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Produkte werden geladen...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LEISTUNGEN ==================== -->
+  <section class="section" id="services">
+    <div class="container">
+      <h2 class="section-title">Unsere Leistungen</h2>
+      <p class="section-subtitle">Was wir für Sie tun können</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🧩</div>
+          <h3>Baustein-Entwicklung</h3>
+          <p>
+            Wir entwickeln maßgeschneiderte Software-Bausteine, die perfekt in Ihre
+            bestehende Infrastruktur passen. Von der Konzeption bis zur Auslieferung.
+          </p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔗</div>
+          <h3>System-Integration</h3>
+          <p>
+            Unsere Experten integrieren unsere Bausteine nahtlos in Ihre Systeme – ob
+            Cloud, On-Premise oder Hybrid-Umgebung.
+          </p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📋</div>
+          <h3>Consulting</h3>
+          <p>
+            Strategische Beratung für Ihre Software-Architektur. Wir helfen Ihnen, die
+            richtigen Bausteine für Ihr Projekt auszuwählen.
+          </p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎓</div>
+          <h3>Schulungen</h3>
+          <p>
+            Praxisnahe Workshops und Schulungen für Ihr Entwicklerteam. Lernen Sie, das
+            volle Potenzial unserer Bausteine auszuschöpfen.
+          </p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔄</div>
+          <h3>Wartung &amp; Support</h3>
+          <p>
+            24/7 Support, regelmäßige Updates und Sicherheitspatches für alle unsere
+            Produkte. SLA-garantiert.
+          </p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3>Cloud Services</h3>
+          <p>
+            Hosting und Betrieb Ihrer Bausteine in unserer hochverfügbaren Cloud-Infrastruktur
+            mit 99,9% Uptime-Garantie.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TEAM ==================== -->
+  <section class="section section-dark" id="team">
+    <div class="container">
+      <h2 class="section-title">Unser Team</h2>
+      <p class="section-subtitle">Die Menschen hinter Blockhunter Software</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <h3>Max Baumann</h3>
+          <span class="team-role">CEO &amp; Gründer</span>
+          <p>15+ Jahre Erfahrung in Enterprise-Software. Visionär für modulare Architekturen.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍💻</div>
+          <h3>Lisa Steinberg</h3>
+          <span class="team-role">CTO</span>
+          <p>Open-Source-Enthusiastin und Architektin unserer Kernplattform.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨‍🔬</div>
+          <h3>Tom Richter</h3>
+          <span class="team-role">Lead Developer</span>
+          <p>Full-Stack-Entwickler mit Leidenschaft für sauberen, wartbaren Code.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩‍🎨</div>
+          <h3>Sarah Klein</h3>
+          <span class="team-role">Head of Design</span>
+          <p>UX/UI-Expertin, die dafür sorgt, dass Technik auch Spaß macht.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== REFERENZEN / TESTIMONIALS ==================== -->
+  <section class="section" id="testimonials">
+    <div class="container">
+      <h2 class="section-title">Was unsere Kunden sagen</h2>
+      <p class="section-subtitle">Referenzen und Erfolgsgeschichten</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            „Dank Blockhunter konnten wir unsere Entwicklungszeit um 60% reduzieren.
+            Die Bausteine sind hervorragend dokumentiert und lassen sich perfekt integrieren."
+          </p>
+          <div class="testimonial-author">
+            <strong>Dr. Anna Weber</strong>
+            <span>CTO, TechVision GmbH</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            „Der AuthShield-Baustein hat uns Wochen an Entwicklungsarbeit gespart.
+            Enterprise-Sicherheit out of the box – genau das, was wir gebraucht haben."
+          </p>
+          <div class="testimonial-author">
+            <strong>Markus Lehmann</strong>
+            <span>Lead Developer, FinSecure AG</span>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">
+            „Hervorragender Support und top Qualität. Blockhunter ist unser Go-to-Partner
+            für alle modularen Software-Komponenten."
+          </p>
+          <div class="testimonial-author">
+            <strong>Julia Hoffmann</strong>
+            <span>Projektleiterin, DataStream Solutions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ==================== -->
+  <section class="section section-dark" id="faq">
+    <div class="container">
+      <h2 class="section-title">Häufig gestellte Fragen</h2>
+      <p class="section-subtitle">Antworten auf Ihre wichtigsten Fragen</p>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">
+            Was sind Software-Bausteine?
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Software-Bausteine sind modulare, wiederverwendbare Komponenten, die eine
+              bestimmte Funktion erfüllen (z.&nbsp;B. Authentifizierung, Zahlungsabwicklung,
+              Datenanalyse). Sie können einfach in bestehende Projekte integriert werden,
+              ohne alles von Grund auf neu entwickeln zu müssen.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Welche Technologien werden unterstützt?
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Unsere Bausteine unterstützen eine Vielzahl von Technologien, darunter
+              JavaScript/TypeScript, Python, Java, C#, Go und Rust. Die meisten Bausteine
+              bieten REST- und GraphQL-APIs für sprachunabhängige Integration.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Gibt es eine kostenlose Testversion?
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Ja! Für alle unsere Produkte bieten wir eine 14-tägige kostenlose Testphase
+              an. Einige Community-Editionen sind sogar dauerhaft kostenlos nutzbar.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Wie funktioniert der Support?
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Wir bieten gestaffelten Support: Community-Support über unser Forum (kostenlos),
+              Standard-Support per E-Mail (Mo–Fr, 9–18 Uhr) und Premium 24/7-Support mit
+              garantierten Reaktionszeiten gemäß SLA.
+            </p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">
+            Können Bausteine individuell angepasst werden?
+            <span class="faq-toggle">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Absolut. Alle Bausteine sind so konzipiert, dass sie über Konfiguration und
+              Erweiterungspunkte (Hooks, Plugins) an Ihre Bedürfnisse angepasst werden
+              können. Für spezielle Anforderungen bieten wir auch Custom Development an.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KONTAKT ==================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title">Kontakt</h2>
+      <p class="section-subtitle">Wir freuen uns auf Ihre Nachricht</p>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <div>
+              <h4>Adresse</h4>
+              <p>Blockhunter Software GmbH<br />Musterstraße 42<br />10115 Berlin, Deutschland</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📧</span>
+            <div>
+              <h4>E-Mail</h4>
+              <p>info@blockhunter-software.de</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📞</span>
+            <div>
+              <h4>Telefon</h4>
+              <p>+49 (0) 30 123 456 78</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">🕐</span>
+            <div>
+              <h4>Geschäftszeiten</h4>
+              <p>Mo – Fr: 9:00 – 18:00 Uhr</p>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name *</label>
+              <input type="text" id="name" name="name" required placeholder="Ihr vollständiger Name" />
+            </div>
+            <div class="form-group">
+              <label for="email">E-Mail *</label>
+              <input type="email" id="email" name="email" required placeholder="ihre@email.de" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="company">Unternehmen</label>
+            <input type="text" id="company" name="company" placeholder="Ihr Unternehmen" />
+          </div>
+          <div class="form-group">
+            <label for="subject">Betreff *</label>
+            <select id="subject" name="subject" required>
+              <option value="">Bitte wählen...</option>
+              <option value="produkt">Produktanfrage</option>
+              <option value="support">Support</option>
+              <option value="partnerschaft">Partnerschaft</option>
+              <option value="karriere">Karriere</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Nachricht *</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Ihre Nachricht..."></textarea>
+          </div>
+          <div class="form-group form-checkbox">
+            <input type="checkbox" id="privacy" name="privacy" required />
+            <label for="privacy">
+              Ich habe die <a href="agb.html" target="_blank">AGB</a> und die
+              Datenschutzerklärung gelesen und stimme ihnen zu. *
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Nachricht senden</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="logo">
+            <span class="logo-icon">⬡</span> Blockhunter<span class="logo-accent">Software</span>
+          </a>
+          <p>Modulare Software-Bausteine für die digitale Zukunft. Made in Germany.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Unternehmen</h4>
+          <ul>
+            <li><a href="#about">Über uns</a></li>
+            <li><a href="#team">Team</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+            <li><a href="#">Karriere</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Produkte</h4>
+          <ul>
+            <li><a href="#products">Alle Produkte</a></li>
+            <li><a href="#">Dokumentation</a></li>
+            <li><a href="#">Changelog</a></li>
+            <li><a href="#">Status</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Rechtliches</h4>
+          <ul>
+            <li><a href="agb.html">AGB</a></li>
+            <li><a href="agb.html#datenschutz">Datenschutz</a></li>
+            <li><a href="agb.html#impressum">Impressum</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Blockhunter Software GmbH. Alle Rechte vorbehalten.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product Detail Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+                </html>
