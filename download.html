@@ -771,7 +771,7 @@
       const primPlat = platforms[primaryOS];
       if (primPlat?.active && primPlat?.link) {
         buttonsHTML += `
-          <a href="/thanks.html?productname=${data.name}&filename=${primPlat.filename}" class="btn-download primary" download>
+          <a href="/thanks.html?productname=${data.name}&filename=${primPlat.filename}" class="btn-download primary">
             ${PLATFORM_ICONS[primaryOS] || ''}
             <span>
               ${t('primaryBtn', primaryOS)}
