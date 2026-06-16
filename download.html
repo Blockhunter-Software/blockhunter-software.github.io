@@ -577,7 +577,12 @@
       transition: color var(--transition);
     }
     .lightbox-close:hover { color: var(--text-primary); }
-
+    .nav-logo-img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
     /* =====================================================================
        RESPONSIVE
     ===================================================================== */
@@ -596,9 +601,9 @@
   <nav>
     <div class="nav-inner">
       <a href="/" class="nav-logo">
-        <div class="logo-mark">BH</div>
-        <span>Blockhunter Software</span>
-      </a>
+          <img src="/images/logo.png" alt="Blockhunter Software Logo" class="nav-logo-img">
+          Blockhunter Software
+        </a>
       <button class="btn-theme" onclick="toggleTheme()" aria-label="Toggle theme">
         <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         <svg id="iconMoon" style="display:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -766,7 +771,7 @@
       const primPlat = platforms[primaryOS];
       if (primPlat?.active && primPlat?.link) {
         buttonsHTML += `
-          <a href="${primPlat.link}" class="btn-download primary" download>
+          <a href="/thanks.html?productname=${data.name}&filename=${primPlat.filename}" class="btn-download primary" download>
             ${PLATFORM_ICONS[primaryOS] || ''}
             <span>
               ${t('primaryBtn', primaryOS)}
@@ -783,7 +788,7 @@
           if (!p) return;
           if (p.active && p.link) {
             buttonsHTML += `
-              <a href="${p.link}" class="btn-download secondary" download>
+              <a href="/thanks.html?productname=${data.name}&filename=${p.filename}" class="btn-download secondary" download>
                 ${PLATFORM_ICONS[os] || ''}
                 <span>${t('secondaryBtn', os)}</span>
               </a>`;
@@ -926,7 +931,7 @@
        Reads the URL hash (e.g. #diary) and fetches data/diary.json
        You can change the base path below.
     ────────────────────────────────────────────────────────────────── */
-    const JSON_BASE_PATH = 'https://blockhunter0007.github.io/projects/'; // ← change this if your JSONs live elsewhere
+    const JSON_BASE_PATH = 'https://blockhunter0007.github.io/projects'; // ← change this if your JSONs live elsewhere
 
     async function loadProduct() {
       const hash = window.location.hash.slice(1);

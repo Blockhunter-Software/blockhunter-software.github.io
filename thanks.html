@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You — Blockhunter Software</title>
+  <meta name="description" content="Your download is ready." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================================
+       HOW TO USE THIS PAGE
+       -----------------------------------------------------------------------
+       Load via URL parameters:
+         thankyou.html?productname=DayLog&filename=DayLog_v1.0.0_win.zip
+         thankyou.html?productname=MyApp&filename=myapp_setup.exe
+
+       The download link is constructed as:
+         BASE_URL + filename
+
+       Set BASE_URL below to your file hosting base path.
+    ===================================================================== */
+
+    /* =====================================================================
+       DESIGN TOKENS  (inherited from Blockhunter main site)
+    ===================================================================== */
+    :root {
+      --bg:          #0A0A0F;
+      --bg-2:        #111118;
+      --surface:     #16161F;
+      --surface-2:   #1E1E2A;
+      --border:      #2A2A3E;
+      --border-2:    #383850;
+
+      --text-primary:   #F0F0F5;
+      --text-secondary: #9090A8;
+      --text-muted:     #5A5A72;
+
+      --accent:      #6B7BFF;
+      --accent-dim:  rgba(107, 123, 255, 0.15);
+      --accent-glow: rgba(107, 123, 255, 0.35);
+
+      --green:       #5EFFA0;
+      --green-dim:   rgba(94, 255, 160, 0.10);
+      --green-glow:  rgba(94, 255, 160, 0.25);
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+
+      --transition:      0.22s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg:          #F5F5FA;
+      --bg-2:        #EBEBF2;
+      --surface:     #FFFFFF;
+      --surface-2:   #F0F0F7;
+      --border:      #D8D8E8;
+      --border-2:    #C0C0D8;
+      --text-primary:   #0A0A18;
+      --text-secondary: #484860;
+      --text-muted:     #9090A8;
+    }
+
+    /* =====================================================================
+       RESET & BASE
+    ===================================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background var(--transition-slow), color var(--transition-slow);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: var(--font-body); border: none; background: none; }
+
+    /* =====================================================================
+       NAV
+    ===================================================================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--transition-slow);
+    }
+    [data-theme="light"] nav { background: rgba(245,245,250,0.88); }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem; font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.05em;
+      flex-shrink: 0;
+    }
+
+    .btn-theme {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .btn-theme:hover { color: var(--text-primary); border-color: var(--border-2); }
+    .btn-theme svg { width: 16px; height: 16px; }
+
+    /* =====================================================================
+       MAIN LAYOUT
+    ===================================================================== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial glow backdrop */
+    main::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse at center top, var(--green-glow) 0%, transparent 65%);
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    /* =====================================================================
+       THANK YOU CARD
+    ===================================================================== */
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 56px 48px;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(94, 255, 160, 0.06), 0 32px 64px rgba(0,0,0,0.3);
+      animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Success icon ring */
+    .success-ring {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: var(--green-dim);
+      border: 1px solid rgba(94, 255, 160, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      position: relative;
+    }
+    .success-ring::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(94, 255, 160, 0.12);
+    }
+    .success-ring svg {
+      width: 32px; height: 32px;
+      color: var(--green);
+    }
+
+    /* Status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--green);
+      background: var(--green-dim);
+      border: 1px solid rgba(94, 255, 160, 0.25);
+      border-radius: 40px;
+      padding: 4px 12px;
+      margin-bottom: 20px;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .card-title span { color: var(--accent); }
+
+    .card-desc {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 36px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* =====================================================================
+       FILE INFO BOX
+    ===================================================================== */
+    .file-box {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+    .file-icon {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      border: 1px solid rgba(107,123,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+    .file-icon svg { width: 18px; height: 18px; }
+    .file-info { flex: 1; min-width: 0; }
+    .file-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 3px;
+    }
+    .file-name {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* =====================================================================
+       DOWNLOAD BUTTON
+    ===================================================================== */
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      box-shadow: 0 0 28px var(--accent-glow);
+      transition: all var(--transition);
+      cursor: pointer;
+      margin-bottom: 16px;
+      text-decoration: none;
+    }
+    .btn-download svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .btn-download:hover {
+      background: #7B8BFF;
+      box-shadow: 0 0 40px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+    .btn-download:active { transform: translateY(0); }
+
+    .btn-download.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Secondary link */
+    .retry-link {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+    .retry-link:hover { color: var(--text-secondary); }
+
+    /* =====================================================================
+       DIVIDER
+    ===================================================================== */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+
+    /* =====================================================================
+       NEXT STEPS
+    ===================================================================== */
+    .next-steps {
+      text-align: left;
+    }
+    .next-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+    .step-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .step-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* =====================================================================
+       FOOTER
+    ===================================================================== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-link {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+    .footer-link:hover { color: var(--text-secondary); }
+
+    /* =====================================================================
+       ERROR STATE  (shown when no params found)
+    ===================================================================== */
+    .error-card {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .error-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .error-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .error-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      display: inline-block;
+    }
+    .nav-logo-img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    /* =====================================================================
+       RESPONSIVE
+    ===================================================================== */
+    @media (max-width: 600px) {
+      .card { padding: 40px 24px; }
+      .error-card { padding: 36px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+          <img src="/images/logo.png" alt="Blockhunter Software Logo" class="nav-logo-img">
+          Blockhunter Software
+        </a>
+      <button class="btn-theme" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg id="iconSun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="iconMoon" style="display:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main id="main">
+    <!-- injected by JS -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2025 Blockhunter Software</span>
+      <div class="footer-links">
+        <a href="/legal.html#terms" class="footer-link">Terms ↗</a>
+        <a href="/legal.html#privacy" class="footer-link">Privacy ↗</a>
+        <a href="mailto:blockhunter.software@gmail.com" class="footer-link">Contact ↗</a>
+        <a href="/" class="footer-link">Home ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    /* ─────────────────────────────────────────────────────────────────
+       CONFIG
+       Set BASE_URL to your file hosting base path.
+       The final download link = BASE_URL + filename
+    ───────────────────────────────────────────────────────────────── */
+    const BASE_URL = 'https://blockhunter0007.github.io/downloads/'; // ← change this
+
+    /* ─────────────────────────────────────────────────────────────────
+       PARSE URL PARAMS
+       Expected:  thankyou.html?productname=DayLog&filename=DayLog_v1.0.0_win.zip
+    ───────────────────────────────────────────────────────────────── */
+    const params      = new URLSearchParams(window.location.search);
+    const productName = params.get('productname') || '';
+    const filename    = params.get('filename')    || '';
+    const downloadURL = filename ? BASE_URL + filename : '';
+
+    /* ─────────────────────────────────────────────────────────────────
+       RENDER
+    ───────────────────────────────────────────────────────────────── */
+    function render() {
+      const main = document.getElementById('main');
+
+      if (!productName && !filename) {
+        /* No params → show error card */
+        main.innerHTML = `
+          <div class="error-card">
+            <div class="error-icon">⚠️</div>
+            <h2 class="error-title">Missing parameters</h2>
+            <p class="error-body">This page requires a <code>productname</code> and <code>filename</code> in the URL.</p>
+            <span class="error-code">?productname=AppName&amp;filename=file.zip</span>
+          </div>`;
+        document.title = 'Error — Blockhunter Software';
+        return;
+      }
+
+      document.title = `Thanks for downloading ${productName || filename} — Blockhunter Software`;
+
+      main.innerHTML = `
+        <div class="card">
+
+          <!-- Success icon -->
+          <div class="success-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+
+          <!-- Badge -->
+          <div class="status-badge">
+            <span class="status-dot"></span>
+            Download ready
+          </div>
+
+          <!-- Heading -->
+          <h1 class="card-title">
+            Thanks for downloading<br>
+            <span>${escapeHTML(productName || filename)}</span>
+          </h1>
+          <p class="card-desc">
+            Your download should start automatically. If it doesn't, use the button below.
+          </p>
+
+          <!-- File info -->
+          ${filename ? `
+          <div class="file-box">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="12" y1="18" x2="12" y2="12"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <div class="file-info">
+              <div class="file-label">File</div>
+              <div class="file-name" title="${escapeHTML(filename)}">${escapeHTML(filename)}</div>
+            </div>
+          </div>` : ''}
+
+          <!-- Download button -->
+          <a
+            id="downloadBtn"
+            href="${escapeHTML(downloadURL)}"
+            class="btn-download${!downloadURL ? ' disabled' : ''}"
+            download
+            ${!downloadURL ? 'aria-disabled="true"' : ''}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8 17 12 21 16 17"/>
+              <line x1="12" y1="21" x2="12" y2="7"/>
+              <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+            </svg>
+            Download ${escapeHTML(productName || filename)}
+          </a>
+
+          <a href="/download.html${productName ? '#' + productName.toLowerCase() : ''}" class="retry-link">
+            ← Back to download page
+          </a>
+
+          <hr class="divider" />
+
+          <!-- Next steps -->
+          <div class="next-steps">
+            <div class="next-label">What's next</div>
+            <ul class="step-list">
+              <li>
+                <span class="step-num">1</span>
+                Open the downloaded file and follow the installation instructions.
+              </li>
+              <li>
+                <span class="step-num">2</span>
+                If your browser blocked the download, check your downloads folder or allow the file in browser settings.
+              </li>
+              <li>
+                <span class="step-num">3</span>
+                Having trouble? Reach us at
+                <a href="mailto:blockhunter.software@gmail.com" style="color:var(--accent);margin-left:4px;">blockhunter.software@gmail.com</a>
+              </li>
+            </ul>
+          </div>
+
+        </div>`;
+
+      /* Auto-trigger download after a short delay */
+      if (downloadURL) {
+        setTimeout(() => {
+          const link = document.createElement('a');
+          link.href = downloadURL;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 800);
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       HELPERS
+    ───────────────────────────────────────────────────────────────── */
+    function escapeHTML(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       THEME
+    ───────────────────────────────────────────────────────────────── */
+    let currentTheme = localStorage.getItem('bh_theme') || 'dark';
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('iconSun').style.display  = theme === 'dark'  ? '' : 'none';
+      document.getElementById('iconMoon').style.display = theme === 'light' ? '' : 'none';
+    }
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('bh_theme', currentTheme);
+      applyTheme(currentTheme);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       INIT
+    ───────────────────────────────────────────────────────────────── */
+    applyTheme(currentTheme);
+    render();
+  </script>
+</body>
+</html>
